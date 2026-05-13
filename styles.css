@@ -1,0 +1,421 @@
+/* ============================================================
+   Base & Reset
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;           /* Req 6.4: body text ≥ 14px */
+  background-color: #f5f5f5;
+  color: #333;
+  min-height: 100vh;
+  overflow-x: hidden;        /* Req 6.1: no horizontal overflow */
+}
+
+/* ============================================================
+   Layout — single-column mobile-first, scales to 1440px
+   ============================================================ */
+.app-container {
+  width: 100%;
+  max-width: 1440px;         /* Req 6.1: supports up to 1440px */
+  margin: 0 auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+header h1 {
+  font-size: 1.5rem;         /* 24px — Req 6.4: headings ≥ 16px */
+  font-weight: 700;
+  color: #222;
+}
+
+/* ============================================================
+   Balance Display
+   ============================================================ */
+#balance-display {
+  background: #fff;
+  border-radius: 8px;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.balance-label {
+  font-size: 1rem;           /* 16px — Req 6.4: labels ≥ 16px */
+  font-weight: 600;
+  color: #555;
+}
+
+#balance-amount {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2c7a2c;
+}
+
+/* ============================================================
+   Sections
+   ============================================================ */
+section {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+section h2 {
+  font-size: 1.1rem;         /* 17.6px — Req 6.4: headings ≥ 16px */
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #222;
+}
+
+/* ============================================================
+   Form
+   ============================================================ */
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+label {
+  font-size: 1rem;           /* 16px — Req 6.4: labels ≥ 16px */
+  font-weight: 500;
+  color: #444;
+}
+
+/* Req 6.2: form fields min tap target 44×44 CSS px */
+#item-name,
+#amount,
+#category {
+  width: 100%;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fafafa;
+  color: #333;
+  transition: border-color 0.2s;
+}
+
+/* Also cover generic inputs/selects for forward-compatibility */
+input[type="text"],
+input[type="number"],
+select {
+  width: 100%;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fafafa;
+  color: #333;
+  transition: border-color 0.2s;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+  outline: none;
+  border-color: #4a90e2;
+  background: #fff;
+}
+
+/* Req 6.2: submit button min tap target 44×44 CSS px */
+button[type="submit"] {
+  width: 100%;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: #4a90e2;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+button[type="submit"]:hover {
+  background-color: #357abd;
+}
+
+button[type="submit"]:active {
+  background-color: #2a6099;
+}
+
+.error {
+  font-size: 0.85rem;        /* ~13.6px — small validation hint */
+  color: #d32f2f;
+  min-height: 1.2em;
+}
+
+/* ============================================================
+   Transaction List
+   ============================================================ */
+#transaction-list {
+  list-style: none;
+  max-height: 320px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#transaction-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  /* Prevent list items from causing horizontal overflow */
+  min-width: 0;
+}
+
+#transaction-list li.placeholder {
+  justify-content: center;
+  color: #888;
+  font-style: italic;
+  border: none;
+  background: transparent;
+}
+
+.item-name {
+  flex: 1;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.amount {
+  font-weight: 600;
+  color: #2c7a2c;
+  white-space: nowrap;
+}
+
+.category {
+  font-size: 0.8rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: #e8f0fe;
+  color: #3c5a99;
+  white-space: nowrap;
+}
+
+/* Req 6.2: delete button min tap target 44×44 CSS px */
+.delete-btn {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  color: #d32f2f;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s;
+  flex-shrink: 0;
+}
+
+.delete-btn:hover {
+  background-color: #fdecea;
+}
+
+/* ============================================================
+   Chart Section
+   ============================================================ */
+#chart-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#spending-chart {
+  max-width: 320px;
+  width: 100%;
+}
+
+.placeholder {
+  color: #888;
+  font-style: italic;
+  text-align: center;
+  padding: 16px 0;
+}
+
+/* ============================================================
+   Toast Notifications — fixed, top-right corner
+   ============================================================ */
+#toast-container {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 1000;
+  /* Constrain width so it doesn't overflow on narrow screens */
+  max-width: calc(100vw - 32px);
+  width: 320px;
+}
+
+.toast {
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  animation: slideDown 0.2s ease-out;
+  word-break: break-word;
+}
+
+.toast--error {
+  background-color: #d32f2f;
+}
+
+.toast--warning {
+  background-color: #f57c00;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   Responsive — tablet (600px+)
+   ============================================================ */
+@media (min-width: 600px) {
+  .app-container {
+    padding: 24px;
+    gap: 24px;
+  }
+
+  header h1 {
+    font-size: 1.75rem;
+  }
+
+  /* Two-column form layout on tablet+ */
+  #form-section form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 16px;
+  }
+
+  /* Category field spans full width */
+  #form-section form .field-group:last-of-type {
+    grid-column: 1 / -1;
+  }
+
+  #form-section form button[type="submit"] {
+    grid-column: 1 / -1;
+  }
+
+  #spending-chart {
+    max-width: 400px;
+  }
+}
+
+/* ============================================================
+   Responsive — desktop (1024px+)
+   ============================================================ */
+@media (min-width: 1024px) {
+  .app-container {
+    padding: 32px 40px;
+    /* Two-column main layout: form+list on left, balance+chart on right */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  header {
+    grid-column: 1 / -1;
+  }
+
+  #balance-display {
+    grid-column: 1 / -1;
+  }
+
+  #form-section {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  #transaction-list-section {
+    grid-column: 1;
+    grid-row: 4;
+  }
+
+  #chart-section {
+    grid-column: 2;
+    grid-row: 3 / 5;
+  }
+
+  #spending-chart {
+    max-width: 480px;
+  }
+}
+
+/* ============================================================
+   Responsive — wide desktop (1280px+)
+   ============================================================ */
+@media (min-width: 1280px) {
+  .app-container {
+    padding: 40px 60px;
+    gap: 28px;
+  }
+
+  header h1 {
+    font-size: 2rem;
+  }
+}
+
+/* ============================================================
+   Responsive — mobile landscape (320px–767px, landscape)
+   Req 6.5: correct layout in portrait and landscape on mobile
+   ============================================================ */
+@media (max-width: 767px) and (orientation: landscape) {
+  .app-container {
+    padding: 12px 16px;
+    gap: 16px;
+  }
+
+  #transaction-list {
+    max-height: 200px;
+  }
+
+  #spending-chart {
+    max-width: 240px;
+  }
+}

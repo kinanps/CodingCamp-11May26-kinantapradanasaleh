@@ -1,0 +1,17 @@
+{
+  "name": "expense-budget-visualizer",
+  "version": "1.0.0",
+  "description": "A mobile-friendly client-side expense and budget visualizer",
+  "main": "app.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.29.0",
+    "@babel/preset-env": "^7.29.5",
+    "babel-jest": "^29.7.0",
+    "fast-check": "^3.0.0",
+    "jest": "^29.0.0",
+    "jest-environment-jsdom": "^29.0.0"
+  }
+}

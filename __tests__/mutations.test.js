@@ -8,7 +8,7 @@ import {
   deleteTransaction,
   getTransactions,
   setTransactions,
-} from '../app.js';
+} from '../js/app.js';
 
 // Reset state before each test so tests are isolated
 beforeEach(() => {

@@ -7,7 +7,7 @@ import {
   handleFormSubmit,
   getTransactions,
   setTransactions,
-} from '../app.js';
+} from '../js/app.js';
 
 // ─── DOM setup ───────────────────────────────────────────────────────────────
 

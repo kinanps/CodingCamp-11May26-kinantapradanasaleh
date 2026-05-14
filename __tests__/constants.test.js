@@ -3,7 +3,7 @@
  * Requirements: 1.1, 4.5
  */
 
-import { CATEGORIES, CATEGORY_COLORS, getTransactions } from '../app.js';
+import { CATEGORIES, CATEGORY_COLORS, getTransactions } from '../js/app.js';
 
 describe('CATEGORIES constant', () => {
   test('contains exactly Food, Transport, and Fun', () => {

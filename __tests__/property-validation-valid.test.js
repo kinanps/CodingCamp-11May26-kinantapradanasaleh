@@ -10,7 +10,7 @@
  */
 
 import fc from 'fast-check';
-import { validateForm } from '../app.js';
+import { validateForm } from '../js/app.js';
 
 // ---------------------------------------------------------------------------
 // Arbitraries

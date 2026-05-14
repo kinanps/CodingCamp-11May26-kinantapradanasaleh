@@ -11,7 +11,7 @@ import {
   setTransactions,
   getTransactions,
   showToast,
-} from '../app.js';
+} from '../js/app.js';
 
 // ---------------------------------------------------------------------------
 // Helpers

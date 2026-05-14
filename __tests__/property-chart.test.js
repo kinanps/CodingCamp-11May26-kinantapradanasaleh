@@ -18,7 +18,7 @@ import {
   setChart,
   CATEGORIES,
   CATEGORY_COLORS,
-} from '../app.js';
+} from '../js/app.js';
 
 // ---------------------------------------------------------------------------
 // Setup / teardown

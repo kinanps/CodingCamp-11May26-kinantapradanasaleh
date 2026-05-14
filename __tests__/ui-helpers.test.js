@@ -7,7 +7,7 @@
  * Requirements: 1.3, 1.4, 5.1, 5.2, 5.4
  */
 
-import { showToast, showValidationErrors, clearValidationErrors } from '../app.js';
+import { showToast, showValidationErrors, clearValidationErrors } from '../js/app.js';
 
 // ─── DOM setup ───────────────────────────────────────────────────────────────
 

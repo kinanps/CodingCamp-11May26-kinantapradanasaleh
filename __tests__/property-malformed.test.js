@@ -10,7 +10,7 @@
  */
 
 import fc from 'fast-check';
-import { STORAGE_KEY, loadFromStorage } from '../app.js';
+import { STORAGE_KEY, loadFromStorage } from '../js/app.js';
 
 // ---------------------------------------------------------------------------
 // Arbitraries

@@ -10,7 +10,7 @@
  */
 
 import fc from 'fast-check';
-import { handleFormSubmit, setTransactions } from '../app.js';
+import { handleFormSubmit, setTransactions } from '../js/app.js';
 
 // ---------------------------------------------------------------------------
 // Arbitraries

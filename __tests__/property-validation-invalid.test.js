@@ -9,7 +9,7 @@
  */
 
 import fc from 'fast-check';
-import { validateForm, getTransactions, setTransactions } from '../app.js';
+import { validateForm, getTransactions, setTransactions } from '../js/app.js';
 
 // ---------------------------------------------------------------------------
 // Arbitraries for invalid inputs

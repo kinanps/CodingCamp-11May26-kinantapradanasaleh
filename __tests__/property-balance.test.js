@@ -14,7 +14,7 @@ import {
   renderBalance,
   setTransactions,
   CATEGORIES,
-} from '../app.js';
+} from '../js/app.js';
 
 // ---------------------------------------------------------------------------
 // Setup / teardown

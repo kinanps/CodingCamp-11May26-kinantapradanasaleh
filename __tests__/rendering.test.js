@@ -7,7 +7,7 @@ import {
   renderList,
   setTransactions,
   deleteTransaction,
-} from '../app.js';
+} from '../js/app.js';
 
 // ============================================================
 // DOM setup — provide #transaction-list before each test

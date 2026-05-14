@@ -3,7 +3,7 @@
  * Requirements: 1.2, 1.3, 1.4
  */
 
-import { validateForm } from '../app.js';
+import { validateForm } from '../js/app.js';
 
 // Helper: a known-good set of inputs
 const VALID = { itemName: 'Lunch', amount: '12.50', category: 'Food' };

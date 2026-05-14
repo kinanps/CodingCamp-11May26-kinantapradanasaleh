@@ -136,15 +136,15 @@ Implement a single-page, client-side web application using plain HTML, CSS, and 
     - Ensure no horizontal overflow at any viewport width 320 px–1440 px
     - _Requirements: 6.1, 6.2, 6.4, 6.5_
 
-- [ ] 10. Implement `init()` bootstrap and wire everything together
-  - [ ] 10.1 Implement `init()` in `app.js` and call it on `DOMContentLoaded`
+- [x] 10. Implement `init()` bootstrap and wire everything together
+  - [x] 10.1 Implement `init()` in `app.js` and call it on `DOMContentLoaded`
     - Calls `loadFromStorage()` to populate `transactions`
     - Initializes the Chart.js instance on `#spending-chart` canvas
     - Attaches `handleFormSubmit` to the form `submit` event
     - Calls `renderAll()` to paint initial state
     - _Requirements: 2.2, 3.4, 4.4, 5.3, 5.4_
 
-  - [~] 10.2 Write integration smoke tests
+  - [x] 10.2 Write integration smoke tests
     - Assert all four UI regions are present in the DOM after `init()`
     - Assert adding a transaction updates balance text, list items, and chart data
     - Assert deleting the last transaction shows placeholders and `$0.00` balance

@@ -20,6 +20,114 @@ export const CATEGORY_COLORS = {
   Fun:       '#FFCE56',
 };
 
+export const CATEGORY_STORAGE_KEY = 'expense-budget-visualizer-categories';
+
+export function loadCategories() {
+  try {
+    const raw = localStorage.getItem(CATEGORY_STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) {
+        parsed.forEach(c => {
+          if (c.name && c.color && !CATEGORIES.includes(c.name)) {
+            CATEGORIES.push(c.name);
+            CATEGORY_COLORS[c.name] = c.color;
+          }
+        });
+      }
+    }
+  } catch (err) {}
+  renderCategoryOptions();
+}
+
+export function saveCategories() {
+  const custom = [];
+  // Skip the 3 default categories
+  for (let i = 3; i < CATEGORIES.length; i++) {
+    const name = CATEGORIES[i];
+    custom.push({ name, color: CATEGORY_COLORS[name] });
+  }
+  try {
+    localStorage.setItem(CATEGORY_STORAGE_KEY, JSON.stringify(custom));
+  } catch (err) {}
+}
+
+export function addCustomCategory(name) {
+  const trimmed = name.trim();
+  if (!trimmed || trimmed.length > 20) {
+    return { valid: false, error: 'Name must be 1-20 characters' };
+  }
+  
+  const exists = CATEGORIES.find(c => c.toLowerCase() === trimmed.toLowerCase());
+  if (exists) {
+    return { valid: false, error: 'Category already exists' };
+  }
+  
+  const colors = ['#9C27B0', '#00BCD4', '#8BC34A', '#FF9800', '#795548', '#607D8B', '#E91E63', '#3F51B5'];
+  const color = colors[(CATEGORIES.length - 3) % colors.length];
+  
+  CATEGORIES.push(trimmed);
+  CATEGORY_COLORS[trimmed] = color;
+  
+  saveCategories();
+  renderCategoryOptions();
+  
+  return { valid: true, name: trimmed };
+}
+
+export function renderCategoryOptions() {
+  const selectForm = document.getElementById('category');
+  if (selectForm) {
+    const currentVal = selectForm.value;
+    selectForm.innerHTML = '';
+    CATEGORIES.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c;
+      opt.textContent = c;
+      selectForm.appendChild(opt);
+    });
+    if (CATEGORIES.includes(currentVal)) {
+      selectForm.value = currentVal;
+    } else {
+      selectForm.value = CATEGORIES[0];
+    }
+  }
+}
+
+export function initCategoryUI() {
+  const btnShowAdd = document.getElementById('btn-show-add-category');
+  const btnAdd = document.getElementById('btn-add-category');
+  const btnCancel = document.getElementById('btn-cancel-category');
+  const addGroup = document.getElementById('add-category-group');
+  const inputNew = document.getElementById('new-category-name');
+  const errorSpan = document.getElementById('error-new-category');
+  
+  if (!btnShowAdd) return;
+  
+  btnShowAdd.addEventListener('click', () => {
+    addGroup.style.display = 'flex';
+    inputNew.focus();
+  });
+  
+  btnCancel.addEventListener('click', () => {
+    addGroup.style.display = 'none';
+    inputNew.value = '';
+    if (errorSpan) errorSpan.textContent = '';
+  });
+  
+  btnAdd.addEventListener('click', () => {
+    const result = addCustomCategory(inputNew.value);
+    if (result.valid) {
+      addGroup.style.display = 'none';
+      inputNew.value = '';
+      if (errorSpan) errorSpan.textContent = '';
+      document.getElementById('category').value = result.name;
+    } else {
+      if (errorSpan) errorSpan.textContent = result.error;
+    }
+  });
+}
+
 // ============================================================
 // State (Task 2.1 — Requirements 1.1, 4.5)
 // ============================================================
@@ -622,6 +730,10 @@ function updateChartTheme() {
  * Requirements: 2.2, 3.4, 4.4, 5.3, 5.4
  */
 export function init() {
+  // Load custom categories first so loaded transactions pass validation
+  loadCategories();
+  initCategoryUI();
+
   // 1. Restore persisted transactions
   const loaded = loadFromStorage();
   setTransactions(loaded);

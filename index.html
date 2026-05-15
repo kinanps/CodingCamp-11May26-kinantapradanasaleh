@@ -49,12 +49,24 @@
         </div>
         <div class="field-group">
           <label for="category">Category</label>
-          <select id="category" required>
-            <option value="Food">Food</option>
-            <option value="Transport">Transport</option>
-            <option value="Fun">Fun</option>
-          </select>
+          <div class="category-input-group">
+            <select id="category" required>
+              <option value="Food">Food</option>
+              <option value="Transport">Transport</option>
+              <option value="Fun">Fun</option>
+            </select>
+            <button type="button" id="btn-show-add-category" class="icon-btn" aria-label="Add new category" title="Add new category">+</button>
+          </div>
           <span class="error" id="error-category" aria-live="polite"></span>
+        </div>
+        <!-- Hidden input for adding new category -->
+        <div class="field-group" id="add-category-group" style="display: none;">
+          <div class="category-input-group">
+            <input type="text" id="new-category-name" placeholder="New category name" maxlength="30" />
+            <button type="button" id="btn-add-category" class="icon-btn action-btn" aria-label="Save category" title="Save category">✓</button>
+            <button type="button" id="btn-cancel-category" class="icon-btn cancel-btn" aria-label="Cancel" title="Cancel">✗</button>
+          </div>
+          <span class="error" id="error-new-category" aria-live="polite"></span>
         </div>
         <button type="submit">Add Transaction</button>
       </form>

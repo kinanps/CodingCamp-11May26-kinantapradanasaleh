@@ -525,6 +525,70 @@ export function handleFormSubmit(event) {
 }
 
 // ============================================================
+// Theme Management
+// ============================================================
+
+export const THEME_STORAGE_KEY = 'expense-budget-visualizer-theme';
+
+export function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute('data-theme');
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  
+  document.documentElement.setAttribute('data-theme', newTheme);
+  try {
+    localStorage.setItem(THEME_STORAGE_KEY, newTheme);
+  } catch (err) {
+    // Ignore storage errors for theme
+  }
+  
+  updateThemeIcon(newTheme);
+  updateChartTheme();
+}
+
+export function initTheme() {
+  let savedTheme = 'light';
+  try {
+    savedTheme = localStorage.getItem(THEME_STORAGE_KEY) || 'light';
+  } catch (err) {}
+  
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  updateThemeIcon(savedTheme);
+
+  const toggleBtn = document.getElementById('theme-toggle');
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', toggleTheme);
+  }
+}
+
+function updateThemeIcon(theme) {
+  const toggleBtn = document.getElementById('theme-toggle');
+  if (toggleBtn) {
+    toggleBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
+    toggleBtn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+}
+
+function updateChartTheme() {
+  if (!chart) return;
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const textColor = isDark ? '#aaaaaa' : '#555';
+  const borderColor = isDark ? '#252525' : '#fff';
+  
+  if (chart.options && chart.options.plugins && chart.options.plugins.legend) {
+    if (!chart.options.plugins.legend.labels) {
+      chart.options.plugins.legend.labels = {};
+    }
+    chart.options.plugins.legend.labels.color = textColor;
+  }
+  
+  if (chart.data && chart.data.datasets && chart.data.datasets.length > 0) {
+    chart.data.datasets[0].borderColor = borderColor;
+  }
+  
+  chart.update();
+}
+
+// ============================================================
 // Bootstrap (Task 10.1 — Requirements 2.2, 3.4, 4.4, 5.3, 5.4)
 // ============================================================
 
@@ -544,20 +608,38 @@ export function init() {
   const loaded = loadFromStorage();
   setTransactions(loaded);
 
+  // Initialize theme
+  initTheme();
+
   // 2. Initialise Chart.js on the #spending-chart canvas
+  // Use window.Chart explicitly because the UMD bundle registers Chart
+  // as a global, and bare 'Chart' may not resolve inside an ES module.
   const canvas = document.getElementById('spending-chart');
-  if (canvas && typeof Chart !== 'undefined') {
+  if (canvas && typeof window.Chart !== 'undefined') {
     try {
       const ctx = canvas.getContext('2d');
-      const chartInstance = new Chart(ctx, {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      const chartInstance = new window.Chart(ctx, {
         type: 'pie',
         data: {
           labels: [],
-          datasets: [{ data: [], backgroundColor: [] }],
+          datasets: [{ 
+            data: [], 
+            backgroundColor: [],
+            borderColor: isDark ? '#252525' : '#fff',
+            borderWidth: 2
+          }],
         },
         options: {
           responsive: true,
-          plugins: { legend: { position: 'bottom' } },
+          plugins: { 
+            legend: { 
+              position: 'bottom',
+              labels: {
+                color: isDark ? '#aaaaaa' : '#555'
+              }
+            } 
+          },
         },
       });
       setChart(chartInstance);

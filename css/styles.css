@@ -1,6 +1,52 @@
 /* ============================================================
    Base & Reset
    ============================================================ */
+:root {
+  --bg-body: #f5f5f5;
+  --text-main: #333;
+  --text-heading: #222;
+  --text-muted: #555;
+  --bg-surface: #fff;
+  --bg-input: #fafafa;
+  --border-color: #ccc;
+  --border-light: #eee;
+  --bg-item: #f9f9f9;
+  --color-primary: #4a90e2;
+  --color-primary-hover: #357abd;
+  --color-primary-active: #2a6099;
+  --color-success: #2c7a2c;
+  --color-danger: #d32f2f;
+  --bg-danger-hover: #fdecea;
+  --color-warning: #f57c00;
+  --bg-category: #e8f0fe;
+  --text-category: #3c5a99;
+  --text-placeholder: #888;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] {
+  --bg-body: #121212;
+  --text-main: #e0e0e0;
+  --text-heading: #ffffff;
+  --text-muted: #aaaaaa;
+  --bg-surface: #1e1e1e;
+  --bg-input: #2c2c2c;
+  --border-color: #444;
+  --border-light: #333;
+  --bg-item: #252525;
+  --color-primary: #5c9ce6;
+  --color-primary-hover: #4a90e2;
+  --color-primary-active: #357abd;
+  --color-success: #66bb6a;
+  --color-danger: #ef5350;
+  --bg-danger-hover: rgba(239, 83, 80, 0.15);
+  --color-warning: #ffb74d;
+  --bg-category: rgba(92, 156, 230, 0.15);
+  --text-category: #90caf9;
+  --text-placeholder: #777;
+  --shadow-color: rgba(0, 0, 0, 0.5);
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -15,10 +61,11 @@ html {
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   font-size: 14px;           /* Req 6.4: body text ≥ 14px */
-  background-color: #f5f5f5;
-  color: #333;
+  background-color: var(--bg-body);
+  color: var(--text-main);
   min-height: 100vh;
   overflow-x: hidden;        /* Req 6.1: no horizontal overflow */
+  transition: background-color 0.3s, color 0.3s;
 }
 
 /* ============================================================
@@ -34,23 +81,47 @@ body {
   gap: 20px;
 }
 
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 header h1 {
   font-size: 1.5rem;         /* 24px — Req 6.4: headings ≥ 16px */
   font-weight: 700;
-  color: #222;
+  color: var(--text-heading);
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+  color: var(--text-main);
+}
+
+.theme-toggle:hover {
+  background-color: var(--bg-surface);
 }
 
 /* ============================================================
    Balance Display
    ============================================================ */
 #balance-display {
-  background: #fff;
+  background: var(--bg-surface);
   border-radius: 8px;
   padding: 16px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px var(--shadow-color);
   flex-wrap: wrap;
   gap: 8px;
 }
@@ -58,23 +129,23 @@ header h1 {
 .balance-label {
   font-size: 1rem;           /* 16px — Req 6.4: labels ≥ 16px */
   font-weight: 600;
-  color: #555;
+  color: var(--text-muted);
 }
 
 #balance-amount {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #2c7a2c;
+  color: var(--color-success);
 }
 
 /* ============================================================
    Sections
    ============================================================ */
 section {
-  background: #fff;
+  background: var(--bg-surface);
   border-radius: 8px;
   padding: 20px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px var(--shadow-color);
   width: 100%;
 }
 
@@ -82,7 +153,7 @@ section h2 {
   font-size: 1.1rem;         /* 17.6px — Req 6.4: headings ≥ 16px */
   font-weight: 600;
   margin-bottom: 16px;
-  color: #222;
+  color: var(--text-heading);
 }
 
 /* ============================================================
@@ -98,26 +169,10 @@ section h2 {
 label {
   font-size: 1rem;           /* 16px — Req 6.4: labels ≥ 16px */
   font-weight: 500;
-  color: #444;
+  color: var(--text-main);
 }
 
 /* Req 6.2: form fields min tap target 44×44 CSS px */
-#item-name,
-#amount,
-#category {
-  width: 100%;
-  min-height: 44px;
-  min-width: 44px;
-  padding: 10px 12px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  background: #fafafa;
-  color: #333;
-  transition: border-color 0.2s;
-}
-
-/* Also cover generic inputs/selects for forward-compatibility */
 input[type="text"],
 input[type="number"],
 select {
@@ -126,19 +181,19 @@ select {
   min-width: 44px;
   padding: 10px 12px;
   font-size: 1rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   border-radius: 6px;
-  background: #fafafa;
-  color: #333;
-  transition: border-color 0.2s;
+  background: var(--bg-input);
+  color: var(--text-main);
+  transition: border-color 0.2s, background-color 0.2s;
 }
 
 input[type="text"]:focus,
 input[type="number"]:focus,
 select:focus {
   outline: none;
-  border-color: #4a90e2;
-  background: #fff;
+  border-color: var(--color-primary);
+  background: var(--bg-surface);
 }
 
 /* Req 6.2: submit button min tap target 44×44 CSS px */
@@ -149,7 +204,7 @@ button[type="submit"] {
   padding: 12px;
   font-size: 1rem;
   font-weight: 600;
-  background-color: #4a90e2;
+  background-color: var(--color-primary);
   color: #fff;
   border: none;
   border-radius: 6px;
@@ -158,16 +213,16 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-  background-color: #357abd;
+  background-color: var(--color-primary-hover);
 }
 
 button[type="submit"]:active {
-  background-color: #2a6099;
+  background-color: var(--color-primary-active);
 }
 
 .error {
   font-size: 0.85rem;        /* ~13.6px — small validation hint */
-  color: #d32f2f;
+  color: var(--color-danger);
   min-height: 1.2em;
 }
 
@@ -188,8 +243,8 @@ button[type="submit"]:active {
   align-items: center;
   gap: 8px;
   padding: 10px 12px;
-  background: #f9f9f9;
-  border: 1px solid #eee;
+  background: var(--bg-item);
+  border: 1px solid var(--border-light);
   border-radius: 6px;
   font-size: 0.95rem;
   /* Prevent list items from causing horizontal overflow */
@@ -198,7 +253,7 @@ button[type="submit"]:active {
 
 #transaction-list li.placeholder {
   justify-content: center;
-  color: #888;
+  color: var(--text-placeholder);
   font-style: italic;
   border: none;
   background: transparent;
@@ -215,7 +270,7 @@ button[type="submit"]:active {
 
 .amount {
   font-weight: 600;
-  color: #2c7a2c;
+  color: var(--color-success);
   white-space: nowrap;
 }
 
@@ -223,8 +278,8 @@ button[type="submit"]:active {
   font-size: 0.8rem;
   padding: 2px 8px;
   border-radius: 12px;
-  background: #e8f0fe;
-  color: #3c5a99;
+  background: var(--bg-category);
+  color: var(--text-category);
   white-space: nowrap;
 }
 
@@ -235,7 +290,7 @@ button[type="submit"]:active {
   padding: 0;
   background: transparent;
   border: none;
-  color: #d32f2f;
+  color: var(--color-danger);
   font-size: 1.2rem;
   cursor: pointer;
   border-radius: 4px;
@@ -247,7 +302,7 @@ button[type="submit"]:active {
 }
 
 .delete-btn:hover {
-  background-color: #fdecea;
+  background-color: var(--bg-danger-hover);
 }
 
 /* ============================================================
@@ -265,7 +320,7 @@ button[type="submit"]:active {
 }
 
 .placeholder {
-  color: #888;
+  color: var(--text-placeholder);
   font-style: italic;
   text-align: center;
   padding: 16px 0;
@@ -299,11 +354,11 @@ button[type="submit"]:active {
 }
 
 .toast--error {
-  background-color: #d32f2f;
+  background-color: var(--color-danger);
 }
 
 .toast--warning {
-  background-color: #f57c00;
+  background-color: var(--color-warning);
 }
 
 @keyframes slideDown {

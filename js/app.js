@@ -31,6 +31,7 @@ export const CATEGORY_COLORS = {
  * @type {Array<{id: string, itemName: string, amount: number, category: string, createdAt: number}>}
  */
 let transactions = [];
+let currentSort = 'date-desc';
 
 // Export a getter so tests can read the current state without
 // directly mutating the module variable.
@@ -380,8 +381,25 @@ export function renderList() {
     return;
   }
 
-  // Render newest-first without mutating the original array.
-  [...transactions].reverse().forEach((tx) => {
+  // Render according to current sort without mutating the original array.
+  let displayList = [...transactions];
+  displayList.sort((a, b) => {
+    switch (currentSort) {
+      case 'date-asc':
+        return a.createdAt - b.createdAt;
+      case 'amount-desc':
+        return b.amount - a.amount;
+      case 'amount-asc':
+        return a.amount - b.amount;
+      case 'category':
+        return a.category.localeCompare(b.category);
+      case 'date-desc':
+      default:
+        return b.createdAt - a.createdAt;
+    }
+  });
+
+  displayList.forEach((tx) => {
     const li = document.createElement('li');
     li.dataset.id = tx.id;
 
@@ -652,6 +670,15 @@ export function init() {
   const form = document.getElementById('transaction-form');
   if (form) {
     form.addEventListener('submit', handleFormSubmit);
+  }
+
+  // 4. Attach sort change handler
+  const sortSelect = document.getElementById('sort-select');
+  if (sortSelect) {
+    sortSelect.addEventListener('change', (e) => {
+      currentSort = e.target.value;
+      renderList();
+    });
   }
 
   // 4. Paint initial state

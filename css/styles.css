@@ -229,6 +229,38 @@ button[type="submit"]:active {
 /* ============================================================
    Transaction List
    ============================================================ */
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.list-header h2 {
+  margin-bottom: 0;
+}
+
+.sort-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sort-controls label {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.sort-controls select {
+  min-height: 36px;
+  min-width: auto;
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  width: auto;
+}
+
 #transaction-list {
   list-style: none;
   max-height: 320px;

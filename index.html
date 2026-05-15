@@ -62,7 +62,19 @@
 
     <!-- Transaction List -->
     <section id="transaction-list-section">
-      <h2>Transactions</h2>
+      <div class="list-header">
+        <h2>Transactions</h2>
+        <div class="sort-controls">
+          <label for="sort-select">Sort by:</label>
+          <select id="sort-select">
+            <option value="date-desc">Newest First</option>
+            <option value="date-asc">Oldest First</option>
+            <option value="amount-desc">Amount (High to Low)</option>
+            <option value="amount-asc">Amount (Low to High)</option>
+            <option value="category">Category</option>
+          </select>
+        </div>
+      </div>
       <ul id="transaction-list">
         <!-- populated by renderList() -->
       </ul>
